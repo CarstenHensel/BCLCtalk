@@ -1,0 +1,758 @@
+import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer";
+import { github, oceanicNext, vsDark} from "@code-surfer/themes";
+import { Image, Notes, Head, Split, SplitRight } from "mdx-deck";
+
+
+import i from './images/imagetst.jpg';
+import i_docker from './images/Moby-logo.png';
+import i_vm from './images/container-vm-whatcontainer_2.png';
+import i_container from './images/docker-containerized-application-blue-border_2.png';
+import i_docker_window from './images/docker-empty.png';
+import i_docker_window_lcio from './images/docker-lcio.png';
+import i_file_structure from './images/filestructure.png'
+import i_higgs_recoil from './images/higgs_recoil.png'
+import i_vscode_docker from './images/vscodedocker.png'
+import i_rec_higgs from './images/recHiggs.png'
+import i_rec_higgs_bkg from './images/recoil_plot_with_bkg.png'
+
+export const theme = oceanicNext;
+
+# My Very First ILC Plot
+A Recap of the DELPHES/miniDST Tutorial
+## Carsten Hensel
+### BCLC Workshop 21-07-2021 
+
+---
+
+# Introduction
+
+🪧 This is a recap of last month's (23/6) ILC tutorial by [Jenny List](mailto:jenny.list@desy.de).   
+🔗 [Slides are still available.](https://agenda.linearcollider.org/event/9264/)  
+⚠️ This overview **does not** replace the actual tutorial.  
+👣 It will focus on the very first steps towards a first ILC plot...  
+⏳ ... and hopefully saves you some time.
+
+---
+
+# Disclaimer
+
+🤦‍♂️ I am not an expert.  
+↔️ As always there's more than one way to make it work.  
+🌱 The examples shown use ``ROOT``. Yes, there are other packages on the market.
+
+
+---
+
+# Ingredients for an LC Plot ⏲️
+
+🧂 data/mc file (miniDST)  
+🧈 read the file  
+🥚 interpret file content (reconstructed objects in collections)  
+🍯 analyse file econtent 
+
+# LCIO 🍰
+
+--- 
+
+# What is LCIO❓
+
+❗ LCIO: Linear Collider I/O  
+❗ **persistency framework** and **event data model** for linear collider detector studies  
+❗ intended to be used in both simulation studies and analysis frameworks  
+❗ allows to easily share results and compare reconstruction algorithms  
+❗ used by almost all groups involved in linear collider detector studies  
+
+---
+
+# How do I get LCIO❓
+
+#### There are (at least) three ways of running the example scripts:
+
+⚠️ install ``LCIO`` yourself: [LCIO Github](https://github.com/iLCSoft/LCIO)  
+🚨 via ``cvmfs``    
+🐳 via ``docker`` [DELPHES/LCIO docker](https://github.com/EnginEren/delphes2lcio-docker)  
+
+---
+
+<Split>
+
+# What is Docker❓ 
+
+<img 
+  src={i_docker}
+  width={300}
+/>
+
+</Split>
+
+🐳  Sofware packages like LCIO depend on many libraries.  
+🐳  Why not install just the bids you need?  
+🐳  ``Docker`` images contain all the dependencies needed to execute code.  
+🐳  Depemdencies live inside **containers**.  
+🐳  Docker is the de facto standard to build and share containerized apps.
+
+---
+
+# Virtual Machine vs Docker
+
+<Split>
+
+<img 
+  src={i_vm}
+  width={700}
+/>
+
+<img 
+  src={i_container}
+  width={700}
+/>
+
+</Split>
+
+---
+
+# Steps to use Docker 🐳
+
+1 install Docker  
+2 download LCIO docker image   
+3 clone DELPHES/LCIO repository
+4 download data files  
+5 enter container  
+
+
+---
+
+# Steps to use Docker 🐳
+
+####  1 install Docker  
+
+<img 
+  src={i_docker_window}
+  width={1000}
+/>
+
+---
+
+
+# Steps to use Docker 🐳
+
+####  2 download LCIO docker image
+
+<CodeSurfer>
+
+```shell subtitle=""
+```
+
+```shell
+docker pull ilcsoft/delphes2lcio-v3
+```
+
+```shell subtitle="needs to be done only once"
+docker pull ilcsoft/delphes2lcio-v3
+```
+
+```shell 1[13:35] subtitle="image name"
+docker pull ilcsoft/delphes2lcio-v3
+```
+
+```shell 1[8:11] subtitle="not to be confused with git pull command"
+docker pull ilcsoft/delphes2lcio-v3
+```
+
+```shell subtitle="image will now show up in your docker desktop"
+docker pull ilcsoft/delphes2lcio-v3
+```
+
+</CodeSurfer>
+
+
+--- 
+
+# Steps to use Docker 🐳
+
+####  2 download LCIO docker image
+
+<img 
+  src={i_docker_window}
+  width={1200}
+/>
+
+---
+
+# Steps to use Docker 🐳
+
+####  2 download LCIO docker image
+
+<img 
+  src={i_docker_window_lcio}
+  width={1200}
+/>
+
+---
+
+# Steps to use Docker 🐳
+
+####  3 clone DELPHES/LCIO repository
+
+<CodeSurfer>
+
+```shell
+```
+
+```shell
+git clone https://github.com/EnginEren/delphes2lcio-docker.git
+```
+
+</CodeSurfer>
+
+---
+
+# Steps to use Docker 🐳
+
+####  4 download data files
+
+[🔗 data file](https://desycloud.desy.de/index.php/s/5LmrjGWqziQfMe7)
+
+<CodeSurfer>
+
+```shell
+```
+
+```shell subtitle="go to main folder"
+cd ~/delphes2lcio-docker
+```
+
+```shell 1[4:5] subtitle="⚠️ depends on you installation directory"
+cd ~/delphes2lcio-docker
+```
+
+```shell subtitle="create data subdirectory"
+cd ~/delphes2lcio-docker
+mkdir data
+```
+
+</CodeSurfer>
+
+
+---
+
+# Entering the Container 🐳
+
+<CodeSurfer>
+
+```shell
+```
+
+```shell subtitle="enter the container 🐳"
+docker run ilcsoft/delphes2lcio-v3 
+```
+```shell subtitle="open bash shell 🐚"
+docker run ilcsoft/delphes2lcio-v3 bash
+```
+
+```shell subtitle="make space for more options"
+docker run\
+> ilcsoft/delphes2lcio-v3 bash
+```
+
+```shell subtitle="remove container after exit 🧹"
+docker run\
+> --rm\
+> ilcsoft/delphes2lcio-v3 bash
+```
+
+```shell subtitle="STDIN and TTY ⌨️"
+docker run\
+> --rm\
+> -it\
+> ilcsoft/delphes2lcio-v3 bash
+```
+
+```shell subtitle="bind mount volumes 💿"
+docker run\
+> --rm\
+> -it\
+> -v /tmp/.X11-unix:/tmp/.X11-unix\
+> -v $PWD/data:/home/ilc/data\
+> -v $PWD/scripts:/home/ilc/scripts\
+> ilcsoft/delphes2lcio-v3 bash
+```
+
+```shell subtitle="set environment variables 🌳"
+docker run\
+> --rm\
+> -it\
+> -e DISPLAY=$ip:0\
+> -v /tmp/.X11-unix:/tmp/.X11-unix\
+> -v $PWD/data:/home/ilc/data\
+> -v $PWD/scripts:/home/ilc/scripts\
+> ilcsoft/delphes2lcio-v3 bash
+```
+
+```shell subtitle="set user 🙋‍♂️"
+docker run\
+> --rm\
+> -it\
+> -e DISPLAY=$ip:0\
+> -v /tmp/.X11-unix:/tmp/.X11-unix\
+> -v $PWD/data:/home/ilc/data\
+> -v $PWD/scripts:/home/ilc/scripts\
+> --user $(id -u)\
+> ilcsoft/delphes2lcio-v3 bash
+```
+
+</CodeSurfer>
+
+---
+
+# How do I know I'm in the container?
+
+---
+
+# How do I know I'm in the container?
+
+<CodeSurfer>
+
+```shell
+```
+
+```shell
+pwd
+```
+
+```shell subtitle="before running the docker command"
+pwd
+> ~/delphes2lcio-docker
+```
+
+```shell subtitle="now run the docker command"
+pwd
+> ~/delphes2lcio-docker
+docker run --rm -it [..]
+```
+
+```shell subtitle="after running the docker command"
+pwd
+> ~/delphes2lcio-docker
+docker run --rm -it [..]
+pwd
+> /home/ilc
+```
+
+</CodeSurfer>
+
+---
+
+# We are now ready to produce our first plot...
+
+---
+
+# We are now ready to produce our first plot...
+
+#### The task (should you choose to accept it):
+## **calculate and plot the higgs recoil mass**
+
+
+<img 
+  src={i_higgs_recoil}
+  width={1500}
+/>
+
+---
+
+# We are now ready to produce our first plot...
+
+<CodeSurfer>
+
+```shell
+```
+
+```shell title="have a look at the higgs_recoil.C script"
+vi scripts/higgs_recoil.C
+```
+
+```shell title="This is a root script."
+vi scripts/higgs_recoil.C
+```
+
+```shell 1[1:2] subtitle="⚠️ vi is **not** in the container"
+vi scripts/higgs_recoil.C
+``` 
+
+</CodeSurfer>
+
+---
+
+# Containers and Code Development 
+
+---
+
+# Containers and Code Development 
+
+<img 
+  src={i_vscode_docker}
+  width={1500}
+/>
+
+---
+
+# Let's take a look into that higgs_recoil.C script!
+
+---
+
+<CodeSurfer>
+
+``` cpp file=./higgs_recoil.C
+```
+
+``` cpp 2:13 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="header files"
+```
+
+``` cpp 3,6 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="remember, we wanted to read in reconstructed particles (muons)"
+```
+
+``` cpp 29 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="step into lcio namespace"
+```
+
+``` cpp 51 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="start of the actual routine"
+```
+
+``` cpp 51[19:35] file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="file name is passed into routine"
+```
+
+</CodeSurfer>
+
+---
+
+# Remember that data file we had downloaded?
+
+<img 
+  src={i_file_structure}
+  width={800}
+/>
+
+🔗 doc: [``ReconstructedParticle`` class](https://ilcsoft.desy.de/LCIO/current/doc/doxygen_api/html/classEVENT_1_1ReconstructedParticle.html)  
+🔗 doc: [``MCParticle`` class](https://ilcsoft.desy.de/LCIO/current/doc/doxygen_api/html/classEVENT_1_1MCParticle.html)
+
+---
+
+<CodeSurfer>
+
+``` cpp file=./higgs_recoil.C
+```
+
+``` cpp 51[19:35] file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="file name is passed into routine"
+```
+
+``` cpp 63 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="which collections do you want to use?"
+```
+
+``` cpp 63[28:40] file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="which collections do you want to use?"
+```
+
+``` cpp 74 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="create an LCIO reader object"
+```
+
+``` cpp 75 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="tell it which collection you want to read in"
+```
+
+``` cpp 76 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="open file"
+```
+
+``` cpp 84,85,111 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="actual event loop"
+```
+
+``` cpp 85[11:71] file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="stop after reading maxEvents (or all events)"
+```
+
+``` cpp 88,91 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="accessing the muons and select events with exactly 2 muons"
+```
+
+``` cpp 94:97 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="get the 4-momenta of the two muons"
+```
+
+``` cpp 96[22:23],97[22:23] file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="get the 4-momenta of the two muons"
+```
+
+``` cpp 42:45 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="4-momentum???"
+```
+
+``` cpp 96,97 file=./higgs_recoil.C title="anatomy of a ROOT script" 
+```
+
+``` cpp 99:109 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="calculate recoil mass and fill histogram"
+```
+
+``` cpp 113:129 file=./higgs_recoil.C title="anatomy of a ROOT script" subtitle="create and save the plot"
+```
+
+</CodeSurfer>
+
+---
+
+# Executing the script in ROOT
+
+<CodeSurfer>
+
+```shell
+```
+
+```shell subtitle="create container from image"
+docker run --rm -it [..]
+``` 
+
+```shell subtitle="go to scripts directory"
+docker run --rm -it [..]
+cd scripts
+``` 
+
+```shell subtitle="start ROOT shell"
+docker run --rm -it [..]
+cd scripts
+root
+root [0]
+``` 
+
+```shell 4 subtitle="Keep in mind, ROOT is not installed on my machine!"
+docker run --rm -it [..]
+cd scripts
+root
+root [0]
+``` 
+
+```shell subtitle="execute (.x) our script."
+docker run --rm -it [..]
+cd scripts
+root
+root [0] .x higgs_recoil.C("data/rv01-16-p10_250. [...] --ILDminiDST.slcio");
+``` 
+
+
+</CodeSurfer>
+
+___
+
+# The Result
+
+---
+
+# The Result
+
+<img 
+  src={i_rec_higgs}
+  width={1200}
+/>
+
+---
+
+# The Result (with background)
+
+<img 
+  src={i_rec_higgs_bkg}
+  width={1200}
+/>
+
+
+---
+
+# Things not covered...
+
+🧑‍🏫 The tutorial contained more examples.  
+🚨 Executing ROOT scripts via shell not optimal for larger projects.  
+🐍 It might be interesting to think about a Python interface (``uproot``)  
+🦢 LCIO can also be used via SWAN (Antonio).
+
+---
+
+### I'd like to thank Jenny for her Tutorial!  
+
+
+---
+
+# Additional Information
+
+---
+
+# What's ``cvmfs``?
+
+👨‍💻 The CernVM File System provides a software distribution service.  
+💻 developed to deploy software on worldwide-distributed computing  
+📁 CernVM-FS is implemented as a POSIX read-only file system.   
+🌐 Files and directories are hosted on standard web servers...  
+📍 ...and mounted in the universal namespace ``/cvmfs``.  
+
+https://cernvm.cern.ch/fs/
+
+---
+
+## ``CernVM-FS`` Installation 
+
+<Notes>
+  These are the steps requifed on macOS.
+  Windows and Linux require slightly different steps.
+  Make sure that macFUSE is installed.
+</Notes>
+
+<CodeSurfer>
+
+```shell 
+
+```
+
+```shell title="macOS > 10.14" subtitle="CernVM-FS is based on macFUSE"
+kextstat | grep -i fuse
+
+```
+
+```shell title="macOS > 10.14" subtitle="download package (and install the package as usual)"
+curl -o ~/Downloads/cvmfs-2.8.1.pkg https://ecsft.cern.ch/dist/cvmfs/cvmfs-2.8.1/cvmfs-2.8.1.pkg
+```
+
+</CodeSurfer>
+
+---
+
+# Setting up the Software
+
+🌐 ``cvmfs`` allows access to software _repositories_ on webservers  
+📁 need to _mount_ those online filesystems  
+🧐 pick repostitories according to task
+
+---
+
+# Setting up the Software
+
+<CodeSurfer>
+
+```shell
+
+```
+
+```shell title="no autofs on macOS" subtitle="mount the individual repositories manually"
+sudo mkdir -p /cvmfs/cvmfs-config.cern.ch
+```
+
+```shell title="no autofs on macOS" subtitle="mount the individual repositories manually"
+sudo mkdir -p /cvmfs/cvmfs-config.cern.ch
+sudo mount -t cvmfs cvmfs-config.cern.ch /cvmfs/cvmfs-config.cern.ch
+```
+
+```shell 1 title="(macOS) workflow" subtitle="👍 needs to be done only once"
+sudo mkdir -p /cvmfs/cvmfs-config.cern.ch
+sudo mount -t cvmfs cvmfs-config.cern.ch /cvmfs/cvmfs-config.cern.ch
+```
+
+```shell 2 title="(macOS) workflow" subtitle="⚠️ mounting required for each new session"
+sudo mkdir -p /cvmfs/cvmfs-config.cern.ch
+sudo mount -t cvmfs cvmfs-config.cern.ch /cvmfs/cvmfs-config.cern.ch
+```
+
+```shell 2 title="(macOS)workflow" subtitle="⚠️ always mount the config repository first"
+sudo mkdir -p /cvmfs/cvmfs-config.cern.ch
+sudo mount -t cvmfs cvmfs-config.cern.ch /cvmfs/cvmfs-config.cern.ch
+```
+
+</CodeSurfer>
+
+---
+
+# Create ``default.local`` 
+
+<CodeSurfer>
+
+```shell 
+```
+
+```shell subtitle="create default.local"
+touch /etc/cvmfs/default.local
+```
+
+```shell subtitle="open the file"
+touch /etc/cvmfs/default.local
+vi /etc/cvmfs/default.local
+```
+</CodeSurfer>
+
+---
+
+# Minimal ``default.local`` 
+
+<CodeSurfer>
+
+```shell 
+```
+
+```shell title="inside default.local" subtitle="example content"
+CVMFS_CLIENT_PROFILE=single
+CVMFS_HTTP_PROXY=DIRECT
+CVMFS_REPOSITORIES=cvmfs-config.cern.ch, ilc.desy.de, sft.cern.ch
+```
+
+```shell 1 title="inside default.local" subtitle="for an individual workstation or laptop"
+CVMFS_CLIENT_PROFILE=single
+CVMFS_HTTP_PROXY=DIRECT
+CVMFS_REPOSITORIES=cvmfs-config.cern.ch, ilc.desy.de, sft.cern.ch
+```
+
+```shell 2 title="inside default.local" subtitle="if you’re unsure about the proxy names..."
+CVMFS_CLIENT_PROFILE=single
+CVMFS_HTTP_PROXY=DIRECT
+CVMFS_REPOSITORIES=cvmfs-config.cern.ch, ilc.desy.de, sft.cern.ch
+```
+
+```shell 2 title="inside default.local" subtitle="if setting up a server"
+CVMFS_CLIENT_PROFILE=single
+CVMFS_HTTP_PROXY=CVMFS_HTTP_PROXY="http://myproxy1:port|http://myproxy2:port"
+CVMFS_REPOSITORIES=cvmfs-config.cern.ch, ilc.desy.de, sft.cern.ch
+```
+
+```shell 3 title="inside default.local" subtitle="eventually list your repositories"
+CVMFS_CLIENT_PROFILE=single
+CVMFS_HTTP_PROXY=DIRECT
+CVMFS_REPOSITORIES=cvmfs-config.cern.ch, ilc.desy.de, sft.cern.ch
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```shell
+sudo mount -t cvmfs cvmfs-config.cern.ch /cvmfs/cvmfs-config.cern.ch
+
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```shell title="Getting Started"
+```
+
+```shell title="Getting Started" subtitle="get the examples"
+git clone https://github.com/ILDAnaSoft/miniDST.git
+```
+
+```shell title="Getting Started" subtitle="change to miniDST folder"
+git clone https://github.com/ILDAnaSoft/miniDST.git
+cd miniDST
+```
+
+```shell title="Getting Started" subtitle="source ilcsoft script"
+git clone https://github.com/ILDAnaSoft/miniDST.git
+cd miniDST
+source /cvmfs/ilc.desy.de/sw/x86_64_gcc82_centos7/v02-02-02/init_ilcsoft.sh
+```
+
+```shell 3[30:49] title="Getting Started" subtitle="pick appropriate architecture"
+git clone https://github.com/ILDAnaSoft/miniDST.git
+cd miniDST
+source /cvmfs/ilc.desy.de/sw/x86_64_gcc82_centos7/v02-02-02/init_ilcsoft.sh
+```
+
+</CodeSurfer>
+
+---
